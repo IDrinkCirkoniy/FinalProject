@@ -1,0 +1,65 @@
+﻿@page
+@model ShoesWebApp.Pages.LoginModel
+@{
+    ViewData["Title"] = "Войти";
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 75vh;">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+
+            <div class="text-center mb-4">
+                <h1 class="fw-bold text-uppercase" style="letter-spacing: 2px;">Вход на сайт</h1>
+                <p class="text-muted small">Введите ваши данные для доступа к PLATFORM</p>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+
+                    <form method="post" asp-page-handler="Login">
+                        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold small text-muted text-uppercase">Логин</label>
+                            <input asp-for="User.Login" class="form-control"/>
+                            <span asp-validation-for="User.Login" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label fw-semibold small text-muted text-uppercase">Пароль</label>
+                            <input asp-for="User.Password" class="form-control" type="password"/>
+                            <span asp-validation-for="User.Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <input type="submit" value="Войти" class="btn btn-primary rounded-pill fw-bold" />
+                        </div>
+                    </form>
+
+                    <div class="position-relative my-4">
+                        <hr class="text-muted">
+                        <span class="position-absolute top-50 start-50 translate-middle bg-white px-2 text-muted small">или</span>
+                    </div>
+
+                    <form method="post" asp-page-handler="Guest">
+                        <div class="d-grid">
+                            <input type="submit" value="Войти как гость" class="btn btn-outline-secondary rounded-pill" />
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="text-center mt-4 text-muted small">
+                &copy; 2025 Platform Store
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

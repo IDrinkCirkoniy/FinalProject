@@ -1,0 +1,89 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Platform</title>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom shadow-sm mb-4">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-uppercase" asp-area="" asp-page="/Index" style="letter-spacing: 1.5px;">PLATFORM</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark px-3" asp-area="" asp-page="/Shoes/Index">Обувь</a>
+                        </li>
+                        <li class="nav-item">
+                            @if (Accessor.HttpContext.Session.GetString("Role") == "client")
+                            {
+                                <a class="nav-link text-dark px-3" asp-area="" asp-page-handler="Client" asp-page="/Orders/Index">Заказы</a>
+                            }
+                            else if (Accessor.HttpContext.Session.GetString("Role") == "manager" ||
+                            Accessor.HttpContext.Session.GetString("Role") == "admin")
+                            {
+                                <a class="nav-link text-dark px-3" asp-area="" asp-page-handler="Manager" asp-page="/Orders/Index">Заказы</a>
+                            }
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-3">
+                        @if (Accessor.HttpContext.Session.GetString("Role") != null)
+                        {
+                            <div class="text-end d-none d-md-block me-2">
+                                <div class="fw-bold small text-dark" style="line-height: 1.2;">
+                                    @Accessor.HttpContext.Session.GetString("SecondName")
+                                    @Accessor.HttpContext.Session.GetString("FirstName")
+                                    @Accessor.HttpContext.Session.GetString("Patronymic")
+                                </div>
+                                <div class="text-muted" style="font-size: 0.75rem; text-transform: lowercase;">
+                                    Роль: @Accessor.HttpContext.Session.GetString("Role")
+                                </div>
+                            </div>
+                            <a asp-page="/Login" asp-page-handler="Logout" class="btn btn-outline-danger btn-sm rounded-pill px-3">Выйти</a>
+                        }
+                        else
+                        {
+                            <a asp-page="/Login" asp-page-handler="Login" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">Войти</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-5">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted bg-light mt-auto">
+        <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>&copy; 2025 — <span class="fw-bold text-dark text-uppercase">Platform</span></span>
+                <span class="small text-uppercase" style="letter-spacing: 1px;">Магазин обуви</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

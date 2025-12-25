@@ -1,0 +1,71 @@
+﻿@page
+@model ShoesWebApp.Pages.Orders.IndexModel
+
+@{
+    ViewData["Title"] = "Заказы";
+}
+
+<div class="mb-4">
+    <h2 class="fw-bold text-uppercase" style="letter-spacing: 1px;">Заказы</h2>
+</div>
+
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+                <tr>
+                    <th class="ps-4 py-3 text-muted fw-semibold" style="font-size: 0.8rem; text-transform: uppercase;">
+                        @Html.DisplayNameFor(model => model.OrderInfos[0].OrderId)
+                    </th>
+                    <th class="py-3 text-muted fw-semibold" style="font-size: 0.8rem; text-transform: uppercase;">
+                        @Html.DisplayNameFor(model => model.OrderInfos[0].User)
+                    </th>
+                    <th class="py-3 text-muted fw-semibold" style="font-size: 0.8rem; text-transform: uppercase;">
+                        @Html.DisplayNameFor(model => model.OrderInfos[0].OrderDate)
+                    </th>
+                    <th class="py-3 text-muted fw-semibold" style="font-size: 0.8rem; text-transform: uppercase;">
+                        @Html.DisplayNameFor(model => model.OrderInfos[0].TotalPrice)
+                    </th>
+                    <th class="pe-4 py-3 text-muted fw-semibold" style="font-size: 0.8rem; text-transform: uppercase;">
+                        @Html.DisplayNameFor(model => model.OrderInfos[0].ShoeArticles)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderInfos)
+                {
+                    <tr>
+                        <td class="ps-4 fw-bold text-primary">
+                            #@Html.DisplayFor(modelItem => item.OrderId)
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border-0 fw-normal px-2">
+                                @Html.DisplayFor(modelItem => item.User.Login)
+                            </span>
+                        </td>
+                        <td class="text-secondary small">
+                            @Html.DisplayFor(modelItem => item.OrderDate)
+                        </td>
+                        <td>
+                            <span class="fw-bold">
+                                @Html.DisplayFor(modelItem => item.TotalPrice)
+                            </span>
+                        </td>
+                        <td class="pe-4">
+                            <div class="text-muted small text-truncate" style="max-width: 600px;" title="@item.ShoeArticles">
+                                @Html.DisplayFor(modelItem => item.ShoeArticles)
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (!Model.OrderInfos.Any())
+{
+    <div class="text-center py-5 border rounded-3 bg-light mt-3">
+        <p class="text-muted mb-0">Список заказов пуст</p>
+    </div>
+}

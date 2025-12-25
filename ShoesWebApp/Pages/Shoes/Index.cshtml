@@ -1,0 +1,155 @@
+﻿@page
+@model ShoesWebApp.Pages.Shoes.IndexModel
+@inject IHttpContextAccessor Accessor;
+
+@{
+    ViewData["Title"] = "Товары";
+}
+
+<div class="mb-4">
+    <h2 class="fw-bold text-uppercase" style="letter-spacing: 1px;">Каталог обуви</h2>
+</div>
+
+<div class="card shadow-sm border-0 rounded-3 mb-4">
+    <div class="card-body p-4">
+        <form method="get" id="filterForm">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label small fw-bold text-muted text-uppercase">Поиск по описанию</label>
+                    <input type="text" name="descriptionPart" value="@Model.DescriptionPart"
+                           placeholder="Название или модель..." onchange="this.form.submit()" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-muted text-uppercase">Производитель</label>
+                    <select class="form-select" asp-items="ViewBag.Producers" asp-for="Producer" 
+                            name="producer" onchange="this.form.submit()">
+                        <option value="">Все</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted text-uppercase">Макс. цена</label>
+                    <input type="number" name="maxPrice" value="@Model.MaxPrice"
+                           onchange="this.form.submit()" class="form-control" />
+                </div>
+
+                <div class="col-md-3 d-flex align-items-end">
+                    <div class="d-flex gap-3 w-100 justify-content-start pb-2">
+                        <div class="form-check form-switch">
+                            <input type="checkbox" name="IsDiscount" asp-for="IsDiscount"
+                                   onchange="this.form.submit()" class="form-check-input" id="discountCheck" />
+                            <label class="form-check-label small" for="discountCheck">Скидка</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" name="IsInStock" asp-for="IsInStock"
+                                   onchange="this.form.submit()" class="form-check-input" id="stockCheck" />
+                            <label class="form-check-label small" for="stockCheck">В наличии</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-3 border-top pt-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="small text-muted text-nowrap">Сортировать:</span>
+                        <select class="form-select form-select-sm w-auto border-0 bg-light"
+                                onchange="this.form.submit()" name="sortColumn">
+                            <option value="name" selected="@(Model.SortColumn == "name")">По названию</option>
+                            <option value="vendor" selected="@(Model.SortColumn == "vendor")">По поставщику</option>
+                            <option value="price" selected="@(Model.SortColumn == "price")">По цене (дешевые)</option>
+                            <option value="price_desc" selected="@(Model.SortColumn == "price_desc")">По цене (дорогие)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Shoe != null && Model.Shoe.Any())
+{
+    <div class="row row-cols-1 g-3">
+        @foreach (var item in Model.Shoe)
+        {
+            <div class="col">
+                <div class="card shadow-sm border-0 h-100 overflow-hidden rounded-3">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-md-2 text-center bg-light py-3">
+                            @if (string.IsNullOrEmpty(item.PhotoName))
+                            {
+                                <img src="~/img/picture.png" class="img-fluid px-2" style="max-height: 120px; object-fit: contain;" alt="No photo" />
+                            }
+                            else
+                            {
+                                <img src="~/img/@item.PhotoName" class="img-fluid px-2" style="max-height: 120px; object-fit: contain;" alt="Shoe photo" />
+                            }
+                        </div>
+
+                        <div class="col-md-7 px-3">
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    <span class="badge bg-dark text-uppercase small">@item.Gender</span>
+                                    <span class="badge bg-secondary text-uppercase small">@item.Category?.Name</span>
+                                </div>
+                                <h5 class="card-title fw-bold mb-1">@item.Description</h5>
+                                <div class="small text-muted">
+                                    <span class="me-3">Производитель: <strong>@item.Producer?.Name</strong></span>
+                                    <span>Поставщик: <strong>@item.Vendor?.Name</strong></span>
+                                </div>
+                                <div class="mt-2 small text-muted">
+                                    На складе: <span class="@(item.Quantity == 0 ? "text-danger fw-bold" : "")">@item.Quantity шт.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 border-start bg-white p-4 text-center">
+                            @if (item.Discount != 0)
+                            {
+                                <div class="mb-1">
+                                    <small class="text-muted text-decoration-line-through">@item.Price ₽</small>
+                                    <h4 class="fw-bold mb-0 text-danger">@item.DiscountPrice ₽</h4>
+                                </div>
+                                <div class="badge rounded-pill mb-3" style="background-color:@(item.Discount < 15 ? "#f8f9fa" : "#00FA9A"); color: #000; border: 1px solid #ddd;">
+                                    Скидка @item.Discount%
+                                </div>
+                            }
+                            else
+                            {
+                                <h4 class="fw-bold mb-3">@item.Price ₽</h4>
+                            }
+
+                            <div class="d-grid">
+                                @{
+                                    var role = Accessor.HttpContext.Session.GetString("Role");
+                                    if (item.Quantity == 0)
+                                    {
+                                        <button disabled class="btn btn-secondary btn-sm rounded-pill">Нет на складе</button>
+                                    }
+                                    else if (role == "guest")
+                                    {
+                                        <form method="post" asp-page-handler="GuestOrder">
+                                            <input type="hidden" name="SelectedShoeId" value="@item.ShoeId" />
+                                            <button type="submit" class="btn btn-sm rounded-pill w-100 fw-bold" style="background-color:#00FA9A">Заказать</button>
+                                        </form>
+                                    }
+                                    else if (role == "client")
+                                    {
+
+                                        <form method="post" asp-page-handler="ClientOrder">
+                                            <input type="hidden" name="SelectedShoeId" value="@item.ShoeId" />
+                                            <button type="submit" class="btn btn-sm rounded-pill w-100 fw-bold" style="background-color:#00FA9A">Заказать</button>
+                                        </form>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info shadow-sm">Нет товаров для отображения</div>
+}

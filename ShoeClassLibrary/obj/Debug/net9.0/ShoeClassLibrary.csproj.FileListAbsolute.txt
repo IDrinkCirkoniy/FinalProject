@@ -1,0 +1,14 @@
+C:\ExamJSMaloman\Project\ShoeClassLibrary\bin\Debug\net9.0\ShoeClassLibrary.deps.json
+C:\ExamJSMaloman\Project\ShoeClassLibrary\bin\Debug\net9.0\ShoeClassLibrary.runtimeconfig.json
+C:\ExamJSMaloman\Project\ShoeClassLibrary\bin\Debug\net9.0\ShoeClassLibrary.dll
+C:\ExamJSMaloman\Project\ShoeClassLibrary\bin\Debug\net9.0\ShoeClassLibrary.pdb
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\ShoeClassLibrary.csproj.AssemblyReference.cache
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\ShoeClassLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\ShoeClassLibrary.AssemblyInfoInputs.cache
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\ShoeClassLibrary.AssemblyInfo.cs
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\ShoeClassLibrary.csproj.CoreCompileInputs.cache
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\ShoeClassLibrary.dll
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\refint\ShoeClassLibrary.dll
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\ShoeClassLibrary.pdb
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\ShoeClassLibrary.genruntimeconfig.cache
+C:\ExamJSMaloman\Project\ShoeClassLibrary\obj\Debug\net9.0\ref\ShoeClassLibrary.dll

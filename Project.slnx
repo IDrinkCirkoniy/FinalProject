@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ShoeClassLibrary/ShoeClassLibrary.csproj" Id="0b956220-5c5b-47fb-93db-461fc06456d6" />
+  <Project Path="ShoesWebApi/ShoesWebApi.csproj" Id="c92b7993-7e8a-435c-b3f1-ed55aa75e06f" />
+  <Project Path="ShoesWebApp/ShoesWebApp.csproj" Id="735593f3-ed0e-4025-9ce1-619bab5d8843" />
+  <Project Path="ShoeWpfApp/ShoeWpfApp.csproj" Id="a355d0c7-f128-476e-8dca-651c69a4e263" />
+</Solution>
